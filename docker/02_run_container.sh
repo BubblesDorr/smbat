@@ -12,7 +12,7 @@ docker run \
     --net host \
     -e DISPLAY=:0 \
     --name  $container_name \
-    --mount type=bind,source=/home/$USER/docker_share/workspace,target=/home/smbat/workspace \
+    --mount type=bind,source=/home/$USER/docker_share/workspace,target=/home/admin/workspace \
     -itd \
     dorrproject/smbat \
     /bin/bash

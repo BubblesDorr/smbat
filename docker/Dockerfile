@@ -1,22 +1,22 @@
 FROM ros:melodic-ros-base-bionic
 
-# Set up a smbat user first.
+# Set up a admin user first.
 RUN apt-get -y update && apt-get -y install sudo
 ENV uid 1000
 ENV gid 1000
 
-RUN mkdir -p /home/smbat/workspace \
-    && groupadd smbat -g ${gid} \
-    && useradd -r -u ${uid} -g smbat smbat \
-    && echo "smbat ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/smbat \
-    && chmod 0440 /etc/sudoers.d/smbat \
-    && chown ${uid}:${gid} -R /home/smbat \
-    && usermod --shell /bin/bash smbat
+RUN mkdir -p /home/admin/workspace \
+    && groupadd admin -g ${gid} \
+    && useradd -r -u ${uid} -g admin admin \
+    && echo "admin ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/admin \
+    && chmod 0440 /etc/sudoers.d/admin \
+    && chown ${uid}:${gid} -R /home/admin \
+    && usermod --shell /bin/bash admin
 
-USER smbat
-ENV HOME /home/smbat
+USER ADMIN
+ENV HOME /home/admin
 ENV SHELL /bin/bash
-WORKDIR /home/smbat
+WORKDIR /home/admin
 SHELL ["/bin/bash", "--login", "-c"]
 
 RUN sudo apt-get -y update && sudo apt-get -y install --reinstall locales && sudo locale-gen en_US.UTF-8
@@ -50,15 +50,15 @@ RUN sudo DEBIAN_FRONTEND=noninteractive DEBIAN_FRONTEND=noninteractive apt-get i
 #     sudo rm -rf /var/lib/apt/lists/*
 
 # 将模拟器从本地转移到容器
-# COPY ./repository/CARLA_0.9.13.tar.gz /home/smbat/workspace/simulator
-# COPY ./repository/sumo-src-1.15.0.tar.gz /home/smbat/workspace/simulator
-# COPY ./repository/Python-3.9.0.tgz /home/smbat/workspace/simulator
+# COPY ./repository/CARLA_0.9.13.tar.gz /home/admin/workspace/simulator
+# COPY ./repository/sumo-src-1.15.0.tar.gz /home/admin/workspace/simulator
+# COPY ./repository/Python-3.9.0.tgz /home/admin/workspace/simulator
 
 # 安装carla0.9.13
-# WORKDIR /home/smbat/workspace/simulator
+# WORKDIR /home/admin/workspace/simulator
 
 # 安装python3.9.0
-# WORKDIR /home/smbat/workspace/simulator
+# WORKDIR /home/admin/workspace/simulator
 # RUN tar -xvf Python-3.9.0.tgz && \
 #     cd Python-3.9.0 && \
 #     ./configure --enable-optimizations && \
