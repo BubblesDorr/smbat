@@ -3,9 +3,9 @@
 # 设置ros环境变量
 echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> ~/.bashrc
 # 设置workspace环境变量
-echo 'export workspace=/home/smbat/workspace' >> ~/.bashrc
+echo 'export workspace=/home/admin/workspace' >> ~/.bashrc
 # 设置项目环境变量
-echo 'export smbat=/home/smbat/workspace/smbat' >> ~/.bashrc
+echo 'export smbat=/home/admin/workspace/src/smbat' >> ~/.bashrc
 
 source ~/.bashrc
 
