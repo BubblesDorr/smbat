@@ -13,7 +13,7 @@ RUN mkdir -p /home/admin/workspace \
     && chown ${uid}:${gid} -R /home/admin \
     && usermod --shell /bin/bash admin
 
-USER ADMIN
+USER admin
 ENV HOME /home/admin
 ENV SHELL /bin/bash
 WORKDIR /home/admin
