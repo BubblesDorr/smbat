@@ -1,13 +1,15 @@
 #! /bin/bash
 
 # 设置ros环境变量
-echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> ~/.bashrc
+cd /home/admin
+touch .bashrc
+echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> .bashrc
 # 设置workspace环境变量
-echo 'export workspace=/home/admin/workspace' >> ~/.bashrc
+echo 'export workspace=/home/admin/workspace' >> .bashrc
 # 设置项目环境变量
-echo 'export smbat=/home/admin/workspace/src/smbat' >> ~/.bashrc
+echo 'export smbat=/home/admin/workspace/src/smbat' >> .bashrc
 
-source ~/.bashrc
+source .bashrc
 
 # 批量设置脚本权限
 # docker
