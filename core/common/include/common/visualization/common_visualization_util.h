@@ -1,7 +1,7 @@
 #ifndef _CORE_COMMON_INCLUDE_COMMON_VISUALIZATION_COMMON_VISUALIZATION_UTIL_H_
 #define _CORE_COMMON_INCLUDE_COMMON_VISUALIZATION_COMMON_VISUALIZATION_UTIL_H_
 
-#include "common/basics/basic.h"
+#include "common/basics/basics.h"
 #include "common/basics/colormap.h"
 #include "common/basics/semantics.h"
 #include "common/basics/shapes.h"
