@@ -39,11 +39,13 @@ catkin_package(
 )
 
 set(THIRD_PARTY_LIBRARIES
+    dw
     ${GLOG_LIBRARIES}
     ${PROTOBUF_LIBRARY}
 )
 
-include_directories(include
+include_directories(
+    include
     ${catkin_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIR}
     ${THIRD_PARTY_INCLUDE_DIRS}
