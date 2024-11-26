@@ -22,7 +22,7 @@ set(THIRD_PARTY_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/thirdparty)
 #declare the include directories of this package.
 catkin_package(
     INCLUDE_DIRS  include
-    LIBRARIES planning_vehicle_model
+    LIBRARIES pp_vehicle_model
 )
 
 include_directories(
@@ -33,7 +33,7 @@ include_directories(
     ${THIRD_PARTY_INCLUDE_DIRS}
 )
 
-add_library(planning_vehicle_model
+add_library(pp_vehicle_model
     src/vehicle_model/vehicle_model.cpp
     src/vehicle_model/ideal_steer_model.cpp
     src/vehicle_model/idm_model.cpp
@@ -43,8 +43,8 @@ add_library(planning_vehicle_model
     src/vehicle_model/controllers/idm_velocity_controller.cpp
     src/vehicle_model/controllers/ctx_idm_velocity_controller.cpp
 )
-target_link_libraries(planning_vehicle_model
-    planning_common
+target_link_libraries(pp_vehicle_model
+    pp_common
 )
 
 #install the hearder files so that other packages can include.

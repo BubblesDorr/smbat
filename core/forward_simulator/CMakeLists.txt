@@ -28,14 +28,14 @@ include_directories(
     ${vehicle_model_INCLUDE_DIRS}
 )
 
-add_library(planning_forward_simulator
+add_library(pp_forward_simulator
     src/forward_simulator/multimodal_forward.cpp
     src/forward_simulator/onlane_forward_simulation.cpp
 )
 
-target_link_libraries(planning_forward_simulator
-    planning_common
-    planning_vehicle_model
+target_link_libraries(pp_forward_simulator
+    pp_common
+    pp_vehicle_model
 )
 
 #install the hearder files so that other packages can include.

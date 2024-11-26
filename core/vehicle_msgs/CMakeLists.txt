@@ -89,7 +89,7 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS include 
     # ${common_INCLUDE_DIRS}
-    # LIBRARIES planning_common
+    # LIBRARIES pp_common
     # LIBRARIES encode_msgs decode_msgs
     #CATKIN_DEPENDS geometry_msgs nav_msgs
     #DEPENDS system_lib

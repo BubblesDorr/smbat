@@ -34,7 +34,7 @@ endif()
 #declare the include directories of this package.
 catkin_package(
     INCLUDE_DIRS include ${THIRD_PARTY_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR} ${OOQP_INCLUDE_DIRS}
-    LIBRARIES planning_common
+    LIBRARIES pp_common
     CATKIN_DEPENDS roscpp visualization_msgs sensor_msgs tf
 )
 
@@ -52,11 +52,11 @@ include_directories(
     ${OOQP_INCLUDE_DIRS}
 )
 
-add_library(planning_ooqp_itf
+add_library(pp_ooqp_itf
     src/common/solver/ooqp_interface.cpp
     src/common/solver/qp_solver.cpp
 )
-target_link_libraries(planning_ooqp_itf
+target_link_libraries(pp_ooqp_itf
     ${OOQP_LIBRARIES}
 )
 set(COMMON_SRC
@@ -80,14 +80,14 @@ set(COMMON_SRC
     src/common/circle_arc/circle_arc_branch.cpp
 )
 
-add_library(planning_common
+add_library(pp_common
     ${COMMON_SRC}
 )
-target_link_libraries(planning_common
+target_link_libraries(pp_common
     ${THIRD_PARTY_LIBRARIES}
     opencv_core
     opencv_highgui
-    planning_ooqp_itf
+    pp_ooqp_itf
 )
 
 #install the hearder files so that other packages can include.

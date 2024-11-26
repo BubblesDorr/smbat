@@ -28,7 +28,7 @@ set(THIRD_PARTY_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/thirdparty)
 #declare the include directories of this package.
 catkin_package(
     INCLUDE_DIRS include ${vehicle_msgs_INCLUDE_DIRS} ${vehicle_model_INCLUDE_DIRS} ${THIRD_PARTY_INCLUDE_DIRS} ${motion_predictor_INCLUDE_DIRS}
-    LIBRARIES planning_smm planning_smm_ros
+    LIBRARIES pp_smm pp_smm_ros
 )
 
 include_directories(
@@ -43,26 +43,26 @@ include_directories(
     ${OpenCV_INCLUDE_DIRS}
 )
 
-add_library(planning_smm
+add_library(pp_smm
     src/semantic_map_manager/semantic_map_manager.cpp
     src/semantic_map_manager/data_renderer.cpp
     src/semantic_map_manager/config_loader.cpp
     src/semantic_map_manager/traffic_signal_manager.cpp
 )
-target_link_libraries(planning_smm
+target_link_libraries(pp_smm
     ${vehicle_model_LIBRARIES}
     ${common_LIBRARIES}
     ${motion_predictor_LIBRARIES}
     ${OpenCV_LIBS}
 )
 
-add_library(planning_smm_ros
+add_library(pp_smm_ros
     src/semantic_map_manager/ros_adapter.cpp
     src/semantic_map_manager/visualizer.cpp
 )
-target_link_libraries(planning_smm_ros
+target_link_libraries(pp_smm_ros
     ${catkin_LIBRARIES}
-    planning_smm
+    pp_smm
 )
 
 

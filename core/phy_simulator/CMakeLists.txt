@@ -38,16 +38,16 @@ add_library(phy_simulator_lib
     src/phy_simulator/phy_simulator.cpp
 )
 target_link_libraries(phy_simulator_lib
-    planning_vehicle_model
-    planning_common
+    pp_vehicle_model
+    pp_common
 )
 
-add_executable(phy_simulator_planning_node
+add_executable(phy_simulator_pp_node
     src/phy_simulator_planning_node.cpp
     src/phy_simulator/visualizer.cpp
     src/phy_simulator/ros_adapter.cpp
 )
-target_link_libraries(phy_simulator_planning_node
+target_link_libraries(phy_simulator_pp_node
     ${catkin_LIBRARIES}
     phy_simulator_lib
 )
