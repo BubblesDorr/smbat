@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <name>playgrounds</name>
+  <version>0.0.0</version>
+  <description>Just put test data here</description>
+
+  <maintainer email="xutao543210@163.com">BubblesDorr</maintainer>
+
+  <license>TODO</license>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>
