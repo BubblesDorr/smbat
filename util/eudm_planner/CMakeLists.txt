@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(behavior_planner)
+project(eudm_planner)
 
 set(CMAKE_VERBOSE_MAKEFILE "true")
 set(CMAKE_BUILD_TYPE "Release")
@@ -19,11 +19,17 @@ find_package(vehicle_model REQUIRED)
 find_package(semantic_map_manager REQUIRED)
 find_package(forward_simulator REQUIRED)
 find_package(route_planner REQUIRED)
+find_package(Protobuf REQUIRED)
+
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
+    proto/eudm_config.proto
+)
+
 #if this catkin packge's header is used by other packages, use catkin_package to
 #declare the include directories of this package.
 catkin_package(
-    INCLUDE_DIRS include ${route_planner_INCLUDE_DIRS}
-    LIBRARIES behavior_planner_lib behavior_planner_ros
+    INCLUDE_DIRS include ${CMAKE_CURRENT_BINARY_DIR}
+    LIBRARIES pp_eudm pp_eudm_ros
 )
 
 include_directories(
@@ -34,27 +40,26 @@ include_directories(
     ${semantic_map_manager_INCLUDE_DIRS}
     ${vehicle_model_INCLUDE_DIRS}
     ${forward_simulator_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_library(behavior_planner_lib
-    src/behavior_planner/behavior_planner.cpp
-    src/behavior_planner/map_adapter.cpp
+add_library(pp_eudm
+    src/eudm_planner/eudm_planner.cpp
+    src/eudm_planner/map_adapter.cpp
+    src/eudm_planner/eudm_manager.cpp
+    src/eudm_planner/dcp_tree.cpp
+    ${PROTO_SRCS}
 )
-
-target_link_libraries(behavior_planner_lib
-    pp_common
-    pp_rp
+target_link_libraries(pp_eudm
     pp_smm
-    pp_vehicle_model
     pp_forward_simulator
 )
 
-add_library(behavior_planner_ros
-    src/behavior_planner/behavior_server_ros.cpp
+add_library(pp_eudm_ros
+    src/eudm_planner/eudm_server_ros.cpp
 )
-
-target_link_libraries(behavior_planner_ros
-    behavior_planner_lib
+target_link_libraries(pp_eudm_ros
+    pp_eudm
     pp_smm_ros
 )
 

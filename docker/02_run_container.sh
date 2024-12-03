@@ -14,13 +14,16 @@ docker run \
     -e NVIDIA_DRIVER_CAPABILITIES=all \
     -v /etc/localtime:/etc/localtime:ro \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -e DISPLAY=unix$DISPLAY \
+    -v /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d \
+    -e DISPLAY=$DISPLAY \
     -e GDK_SCALE \
     -e GDK_DPI_SCALE \
     --network="host" \
     --privileged \
     -v /dev/bus/usb:/dev/bus/usb \
     --mount type=bind,source=/home/$USER/docker_share/workspace,target=/home/admin/workspace \
+    --mount type=bind,source=/software/Carla,target=/home/admin/third_party/Carla \
+    --mount type=bind,source=/software/LimSim,target=/home/admin/third_party/LimSim \
     -itd \
     $image_name \
     /bin/bash

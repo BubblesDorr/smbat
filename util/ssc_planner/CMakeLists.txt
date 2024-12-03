@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
-project(behavior_planner)
+project(ssc_planner)
 
 set(CMAKE_VERBOSE_MAKEFILE "true")
 set(CMAKE_BUILD_TYPE "Release")
-set(CMAKE_CXX_FLAGS "-std=c++11  -g")
+set(CMAKE_CXX_FLAGS "-std=c++11 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall")
 
@@ -14,48 +14,52 @@ find_package(catkin REQUIRED COMPONENTS
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+find_package(OpenMP REQUIRED)
 find_package(common REQUIRED)
-find_package(vehicle_model REQUIRED)
 find_package(semantic_map_manager REQUIRED)
-find_package(forward_simulator REQUIRED)
-find_package(route_planner REQUIRED)
+find_package(Protobuf REQUIRED)
+
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS
+    proto/ssc_config.proto
+)
+
 #if this catkin packge's header is used by other packages, use catkin_package to
 #declare the include directories of this package.
 catkin_package(
-    INCLUDE_DIRS include ${route_planner_INCLUDE_DIRS}
-    LIBRARIES behavior_planner_lib behavior_planner_ros
+    INCLUDE_DIRS include ${CMAKE_CURRENT_BINARY_DIR}
+    LIBRARIES pp_ssc ssc_server_ros
 )
 
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
     ${common_INCLUDE_DIRS}
-    ${route_planner_INCLUDE_DIRS}
     ${semantic_map_manager_INCLUDE_DIRS}
-    ${vehicle_model_INCLUDE_DIRS}
-    ${forward_simulator_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_library(behavior_planner_lib
-    src/behavior_planner/behavior_planner.cpp
-    src/behavior_planner/map_adapter.cpp
+add_library(pp_ssc
+    src/ssc_planner/ssc_planner.cpp
+    src/ssc_planner/ssc_map.cpp
+    src/ssc_planner/map_adapter.cpp
+    ${PROTO_SRCS}
 )
-
-target_link_libraries(behavior_planner_lib
+target_link_libraries(pp_ssc PRIVATE
     pp_common
-    pp_rp
     pp_smm
-    pp_vehicle_model
-    pp_forward_simulator
+    "${OpenMP_CXX_FLAGS}"
 )
 
-add_library(behavior_planner_ros
-    src/behavior_planner/behavior_server_ros.cpp
-)
+target_compile_options(pp_ssc PRIVATE "${OpenMP_CXX_FLAGS}")
 
-target_link_libraries(behavior_planner_ros
-    behavior_planner_lib
+add_library(ssc_server_ros
+    src/ssc_planner/ssc_server_ros.cpp
+    src/ssc_planner/ssc_visualizer.cpp
+)
+target_link_libraries(ssc_server_ros PRIVATE
+    pp_ssc
     pp_smm_ros
+    ${OpenMP_CXX_FLAGS}
 )
 
 #install the hearder files so that other packages can include.

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(behavior_planner)
+project(ai_agent_planner)
 
 set(CMAKE_VERBOSE_MAKEFILE "true")
 set(CMAKE_BUILD_TYPE "Release")
@@ -16,46 +16,35 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 find_package(common REQUIRED)
 find_package(vehicle_model REQUIRED)
-find_package(semantic_map_manager REQUIRED)
+find_package(vehicle_model REQUIRED)
 find_package(forward_simulator REQUIRED)
-find_package(route_planner REQUIRED)
+find_package(semantic_map_manager REQUIRED)
+find_package(behavior_planner REQUIRED)
 #if this catkin packge's header is used by other packages, use catkin_package to
 #declare the include directories of this package.
 catkin_package(
-    INCLUDE_DIRS include ${route_planner_INCLUDE_DIRS}
-    LIBRARIES behavior_planner_lib behavior_planner_ros
+#	INCLUDE_DIRS inc
 )
 
 include_directories(
-    include
+#    inc
     ${catkin_INCLUDE_DIRS}
     ${common_INCLUDE_DIRS}
-    ${route_planner_INCLUDE_DIRS}
     ${semantic_map_manager_INCLUDE_DIRS}
     ${vehicle_model_INCLUDE_DIRS}
     ${forward_simulator_INCLUDE_DIRS}
+    ${behavior_planner_INCLUDE_DIRS}
 )
 
-add_library(behavior_planner_lib
-    src/behavior_planner/behavior_planner.cpp
-    src/behavior_planner/map_adapter.cpp
+add_executable(onlane_ai_agent
+    src/onlane_ai_agent.cpp
 )
-
-target_link_libraries(behavior_planner_lib
-    pp_common
-    pp_rp
-    pp_smm
+target_link_libraries(onlane_ai_agent
+    ${catkin_LIBRARIES}
+    pp_smm_ros
+    behavior_planner_ros
     pp_vehicle_model
     pp_forward_simulator
-)
-
-add_library(behavior_planner_ros
-    src/behavior_planner/behavior_server_ros.cpp
-)
-
-target_link_libraries(behavior_planner_ros
-    behavior_planner_lib
-    pp_smm_ros
 )
 
 #install the hearder files so that other packages can include.

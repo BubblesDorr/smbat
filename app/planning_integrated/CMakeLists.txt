@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(behavior_planner)
+project(planning_integrated)
 
 set(CMAKE_VERBOSE_MAKEFILE "true")
 set(CMAKE_BUILD_TYPE "Release")
@@ -9,53 +9,49 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall")
 
 find_package(catkin REQUIRED COMPONENTS
     roscpp
+    message_filters
     visualization_msgs
     sensor_msgs)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 find_package(common REQUIRED)
-find_package(vehicle_model REQUIRED)
 find_package(semantic_map_manager REQUIRED)
-find_package(forward_simulator REQUIRED)
-find_package(route_planner REQUIRED)
+find_package(behavior_planner REQUIRED)
+find_package(eudm_planner REQUIRED)
+find_package(ssc_planner REQUIRED)
 #if this catkin packge's header is used by other packages, use catkin_package to
 #declare the include directories of this package.
 catkin_package(
-    INCLUDE_DIRS include ${route_planner_INCLUDE_DIRS}
-    LIBRARIES behavior_planner_lib behavior_planner_ros
+#	    INCLUDE_DIRS include
 )
 
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
     ${common_INCLUDE_DIRS}
-    ${route_planner_INCLUDE_DIRS}
     ${semantic_map_manager_INCLUDE_DIRS}
-    ${vehicle_model_INCLUDE_DIRS}
-    ${forward_simulator_INCLUDE_DIRS}
+    ${behavior_planner_INCLUDE_DIRS}
+    ${eudm_planner_INCLUDE_DIRS}
+    ${ssc_planner_INCLUDE_DIRS}
 )
 
-add_library(behavior_planner_lib
-    src/behavior_planner/behavior_planner.cpp
-    src/behavior_planner/map_adapter.cpp
+add_executable(test_ssc_with_mpdm
+    src/test_ssc_with_mpdm.cpp
+)
+target_link_libraries(test_ssc_with_mpdm
+   ${catkin_LIBRARIES}
+   ssc_server_ros
+   behavior_planner_ros
 )
 
-target_link_libraries(behavior_planner_lib
-    pp_common
-    pp_rp
-    pp_smm
-    pp_vehicle_model
-    pp_forward_simulator
+add_executable(test_ssc_with_eudm
+    src/test_ssc_with_eudm.cpp
 )
-
-add_library(behavior_planner_ros
-    src/behavior_planner/behavior_server_ros.cpp
-)
-
-target_link_libraries(behavior_planner_ros
-    behavior_planner_lib
-    pp_smm_ros
+target_link_libraries(test_ssc_with_eudm
+   ${catkin_LIBRARIES}
+   ssc_server_ros
+   pp_eudm_ros
 )
 
 #install the hearder files so that other packages can include.
